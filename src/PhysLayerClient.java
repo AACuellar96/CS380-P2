@@ -17,7 +17,7 @@
                int[] b = new int[320];
                 System.out.println("Established baseline is "+baseline);
               for(int i=0;i<320;i++){
-                   if(baseline<br.read()) {
+                   if(br.read()>baseline) {
                        b[i] = 1;
                    }
                    else {
@@ -51,7 +51,6 @@
                binaryHolder+=fiveBtoFourB(fiveBytes[i]);
            }
            String hexStr="";
-                //index out of bounds when binaryHolder is short
            for(int i=0;i<64;i++){
                int deci = Integer.parseInt(binaryHolder.substring(0+(4*i),4+(4*i)),2);
                hexStr+=Integer.toHexString(deci);
@@ -104,6 +103,7 @@
                 return "1110";
             else if (fiveB.equals("11101"))
                 return "1111";
+            System.out.println(fiveB);
         }
         return "";
     }
