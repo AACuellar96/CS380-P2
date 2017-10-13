@@ -63,7 +63,7 @@
                 }
            out.write(holder);
            System.out.println("Received 32 bytes: "+hexStr.toUpperCase());
-           if(br.read()==1)
+           if(is.read()==1)
                 System.out.println("Response good");
             else
                 System.out.println("Response bad");
