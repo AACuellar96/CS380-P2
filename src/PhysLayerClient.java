@@ -24,31 +24,31 @@
                        b[i] = 0;
                    }
                }
-               String[] fiveBytes = new String[64];
+               String[] fiveBits = new String[64];
                 //Decode from NRZI
                 //CURRENTLY CONTINUOUS
                 for(int i=0;i<64;i++){
-                    String byteString="";
+                    String bitString="";
                     for(int j=0;j<5;j++){
                         if(((i*5)+j)!=0){
                             if(b[(i*5)+j]!=b[(i*5)+j-1])
-                                byteString+=1;
+                                bitString+=1;
                             else
-                                byteString+=0;
+                                bitString+=0;
                         }
                         else{
                             if(b[0]!=0)
-                                byteString+=1;
+                                bitString+=1;
                             else
-                                byteString+=0;
+                                bitString+=0;
                         }
                     }
-                    fiveBytes[i]=byteString;
+                    fiveBits[i]=bitString;
                 }
             //DECODE from 5B to 4B
            String binaryHolder="";
            for(int i=0;i<64;i+=1){
-               binaryHolder+=fiveBtoFourB(fiveBytes[i]);
+               binaryHolder+=fiveBtoFourB(fiveBits[i]);
            }
            String hexStr="";
            for(int i=0;i<64;i++){
@@ -110,7 +110,7 @@
             else if (fiveB.equals("11101"))
                 return "1111";
             else{
-                System.out.println("Invalid 5Bytes: "+ fiveB);
+                System.out.println("Invalid 5 Bits: "+ fiveB);
             }
         }
         return "";
