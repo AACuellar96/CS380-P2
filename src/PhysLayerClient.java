@@ -8,16 +8,16 @@
                 InputStreamReader isr = new InputStreamReader(is, "UTF-8");
                 BufferedReader br = new BufferedReader(isr);
                 BufferedReader brIS = new BufferedReader(new InputStreamReader(System.in));
-                PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
+                PrintStream out = new PrintStream((socket.getOutputStream()),true,"UTF-8");
                 double baseline =0;
                 for(int i=0;i<64;i++){
-                    baseline+=br.read();
+                    baseline+=is.read();
                 }
                 baseline/=64;
                int[] b = new int[320];
                 System.out.println("Established baseline is "+baseline);
               for(int i=0;i<320;i++){
-                   if(br.read()>baseline) {
+                   if(is.read()>baseline) {
                        b[i] = 1;
                    }
                    else {
@@ -52,11 +52,17 @@
            }
            String hexStr="";
            for(int i=0;i<64;i++){
-               int deci = Integer.parseInt(binaryHolder.substring(0+(4*i),4+(4*i)),2);
+               int deci = Integer.parseInt(binaryHolder.substring((4*i),4+(4*i)),2);
                hexStr+=Integer.toHexString(deci);
            }
-           out.println(hexStr.toUpperCase());
-           System.out.println(hexStr.toUpperCase());
+           byte[] holder = new byte[hexStr.length()/2];
+                int place=0;
+                for(int i=0;i<holder.length;i++){
+                    holder[i]=(byte)Integer.parseInt(hexStr.substring(place,place+2),16);
+                    place+=2;
+                }
+           out.write(holder);
+           System.out.println("Received 32 bytes: "+hexStr.toUpperCase());
            if(br.read()==1)
                 System.out.println("Response good");
             else
@@ -103,7 +109,9 @@
                 return "1110";
             else if (fiveB.equals("11101"))
                 return "1111";
-            System.out.println(fiveB);
+            else{
+                System.out.println("Invalid 5Bytes: "+ fiveB);
+            }
         }
         return "";
     }
